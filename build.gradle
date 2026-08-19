@@ -33,6 +33,13 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
+            // 标准 MDK 配置：dev 环境把模组 refmap 中的 SRG 名反查为官方名，
+            // 否则依赖模组（如 GTCEu 7.x）的 mixin 按 refmap 找不到目标而崩溃
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            // dev 环境兜底：完全禁用 refmap 解析（dev 类名即官方名，无需 refmap）
+            property 'mixin.env.disableRefMap', 'true'
+
             mods {
                 "${mod_id}" {
                     source sourceSets.main
@@ -122,6 +129,9 @@ dependencies {
     implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
     // rhino
     implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+    // MixinExtras：声明与 GTCEu jarjar 内嵌版本一致的 0.5.3（KubeJS 内嵌了远古的 0.2.0-rc.2，
+    // 显式声明保证 classpath 上有现代版本；dev 环境的 GTCEu mixin 崩溃另有兼容 mixin 处理）
+    implementation "io.github.llamalad7:mixinextras-forge:0.5.3"
     // JEI Unofficial
     compileOnly fg.deobf("curse.maven:jei-unofficial-1642978:8668196")
     runtimeOnly fg.deobf("curse.maven:jei-unofficial-1642978:8668196")
