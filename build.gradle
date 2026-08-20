@@ -33,11 +33,15 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
-            // 标准 MDK 配置：dev 环境把模组 refmap 中的 SRG 名反查为官方名，
-            // 否则依赖模组（如 GTCEu 7.x）的 mixin 按 refmap 找不到目标而崩溃
+            // 标准 MDK 配置 + dev 专用修复：
+            // 1) remapRefMap：把本项目 mixin 的 refmap 从 SRG 反查为官方名（标准 MDK 行为）
+            // 2) disableRefMap：依赖模组（GTCEu/Configuration 等）的 mixin 在 dev 直接应用 refmap
+            //    会把目标解析成 SRG 名（如 m_280405_），而 dev 类名是官方名，逐个都会崩。
+            //    dev 禁用 refmap 后全部用官方名直接解析（实测除 FluidHelperMixin 外全过，
+            //    FluidHelperMixin 由 devcompat 兼容模组补充目标方法解决）。
+            //    prod（整合包）不受影响：refmap 正常应用，GTCEu + JEI 完全正常。
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            // dev 环境兜底：完全禁用 refmap 解析（dev 类名即官方名，无需 refmap）
             property 'mixin.env.disableRefMap', 'true'
 
             mods {
@@ -48,9 +52,6 @@ minecraft {
         }
 
         client {
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            property 'mixin.env.disableRefMap', 'true'
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
@@ -135,13 +136,38 @@ dependencies {
     // MixinExtras：声明与 GTCEu jarjar 内嵌版本一致的 0.5.3（KubeJS 内嵌了远古的 0.2.0-rc.2，
     // 显式声明保证 classpath 上有现代版本；dev 环境的 GTCEu mixin 崩溃另有兼容 mixin 处理）
     implementation fg.deobf("io.github.llamalad7:mixinextras-forge:0.5.3")
-    // JEI Unofficial
-    // implementation fg.deobf("curse.maven:jei-unofficial-1642978:8668196")
-    // compileOnly fg.deobf("curse.maven:jei-unofficial-1642978:8668196")
-    // runtimeOnly fg.deobf("curse.maven:jei-unofficial-1642978:8668196")
+    // JEI（与整合包环境一致：GTCEu 7.5.3 + JEI）
+    compileOnly fg.deobf("curse.maven:jei-unofficial-1642978:8668196")
+    runtimeOnly fg.deobf("curse.maven:jei-unofficial-1642978:8668196")
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+
+// ===== dev 专用兼容模组（devcompat）=====
+// Forge 1.20.1 dev 的目录型模组无法注册 mixin 配置（容器资源扫描覆盖不到目录），
+// 所以把兼容 mixin（为 GTCEu 7.5.3 的 GuiGraphicsMixin 补充 m_280405_ 目标方法）打包成
+// 独立 jar 模组挂到 runtimeClasspath：jar 会被 mixin 容器正常扫描注册。
+// 该 jar 只存在于 dev 运行，不进入正式模组产物。
+sourceSets {
+    devcompat {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
+}
+
+tasks.register('devCompatJar', Jar) {
+    archiveFileName = 'examplemod-devcompat.jar'
+    destinationDirectory = layout.buildDirectory.dir('devcompat')
+    from sourceSets.devcompat.output
+    // Forge 1.20.1 的 mixin 容器通过 jar 清单的 MixinConfigs 属性注册 mixin 配置
+    manifest {
+        attributes 'MixinConfigs': 'examplemod.mixins.json'
+    }
+}
+
+dependencies {
+    runtimeOnly files(tasks.named('devCompatJar'))
 }
 
 tasks.named('processResources', ProcessResources).configure {
