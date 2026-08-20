@@ -25,6 +25,8 @@ public class GtgCore
 
         modEventBus.addListener(this::commonSetup);
 
+        MachineRegistrate.init();
+
         // 注册 ForgeConfigSpec，Forge 会负责加载/保存配置文件
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 

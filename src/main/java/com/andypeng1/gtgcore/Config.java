@@ -1,5 +1,6 @@
 package com.andypeng1.gtgcore;
 
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 /**
@@ -11,4 +12,7 @@ public class Config
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
+
+    public static MultiblockMachineDefinition LARGE_GAS_COLLECTOR;
+
 }

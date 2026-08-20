@@ -83,9 +83,6 @@ repositories {
     maven {
         name = 'GTCEu Maven'
         url = 'https://maven.gtceu.com'
-        content {
-            includeGroup 'com.gregtechceu.gtceu'
-        }
     }
     // KubeJS / Rhino
     maven {
@@ -119,8 +116,14 @@ repositories {
 dependencies {
     // Forge
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    // Jetbrains
+    compileOnly("org.jetbrains:annotations:26.0.1")
     // GTM
     implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gtceu_version}") {
+        transitive = true
+    }
+    // LDlib
+    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:${ldlib_version}") {
         transitive = false
     }
     // Configuration
