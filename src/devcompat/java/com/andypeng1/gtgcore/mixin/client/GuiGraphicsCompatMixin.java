@@ -27,6 +27,20 @@ public abstract class GuiGraphicsCompatMixin {
     @Shadow
     abstract void flushIfUnmanaged();
 
+    @Shadow
+    public abstract void renderItemDecorations(net.minecraft.client.gui.Font font, ItemStack stack, int x, int y, String text);
+
+    @Shadow
+    public abstract void renderItemDecorations(net.minecraft.client.gui.Font font, ItemStack stack, int x, int y);
+
+    /**
+     * 补出的方法：对应 ae2wtlib RestockRender 的 @Inject 目标
+     * （renderItemDecorations 4 参重载，SRG 名 m_280370_）。
+     */
+    public void m_280370_(net.minecraft.client.gui.Font font, ItemStack stack, int x, int y) {
+        this.renderItemDecorations(font, stack, x, y);
+    }
+
     /**
      * 补出的方法：签名与 GTCEu 目标完全一致（LivingEntity, Level, ItemStack, int x4）。
      * 参数含义按新 MC 的 renderItem 推断：(entity, level, stack, x, y, seed, 忽略)。
@@ -40,5 +54,36 @@ public abstract class GuiGraphicsCompatMixin {
      */
     public void m_286081_() {
         this.flushIfUnmanaged();
+    }
+
+    @Shadow
+    public abstract void blit(int x, int y, int width, int height, int z, net.minecraft.client.renderer.texture.TextureAtlasSprite sprite);
+
+    @Shadow
+    public abstract void blit(int x, int y, int width, int height, int z, net.minecraft.client.renderer.texture.TextureAtlasSprite sprite, float u1, float v1, float u2, float v2);
+
+    /**
+     * 补出的方法：对应 Embeddium DrawContextMixin 的 @Inject 目标
+     * （blit 的 TextureAtlasSprite + uv 重载，SRG 名 m_280565_）。
+     */
+    public void m_280565_(int a, int b, int c, int d, int e, net.minecraft.client.renderer.texture.TextureAtlasSprite sprite,
+                          float u1, float v1, float u2, float v2) {
+        this.blit(a, b, c, d, e, sprite, u1, v1, u2, v2);
+    }
+
+    /**
+     * 补出的方法：对应 Embeddium DrawContextMixin 的 @Inject 目标
+     * （blit 的 TextureAtlasSprite 重载，SRG 名 m_280159_）。
+     */
+    public void m_280159_(int a, int b, int c, int d, int e, net.minecraft.client.renderer.texture.TextureAtlasSprite sprite) {
+        this.blit(a, b, c, d, e, sprite);
+    }
+
+    /**
+     * 补出的方法：对应 Goety GuiGraphicsMixin 的 @Inject 目标
+     * （renderItemDecorations 的带 String 重载，SRG 名 m_280302_）。
+     */
+    public void m_280302_(net.minecraft.client.gui.Font font, ItemStack stack, int x, int y, String text) {
+        this.renderItemDecorations(font, stack, x, y, text);
     }
 }

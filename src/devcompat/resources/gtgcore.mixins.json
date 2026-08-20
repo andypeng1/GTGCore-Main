@@ -4,10 +4,12 @@
     "package": "com.andypeng1.gtgcore.mixin",
     "compatibilityLevel": "JAVA_17",
     "plugin": "com.andypeng1.gtgcore.mixin.GTDevCompatMixinPlugin",
-    "priority": 2000,
+    "priority": 100,
     "client": [
         "client.GuiGraphicsCompatMixin",
-        "client.FluidHelperCompatMixin"
+        "client.FluidHelperCompatMixin",
+        "client.MinecraftCompatMixin",
+        "client.ResourceLocationCompatMixin",
     ],
     "injectors": {
         "defaultRequire": 1
