@@ -1,4 +1,4 @@
-package com.example.examplemod.mixin;
+package com.andypeng1.gtgcore.mixin;
 
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.objectweb.asm.tree.ClassNode;

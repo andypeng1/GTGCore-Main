@@ -1,9 +1,9 @@
 {
     "required": true,
     "minVersion": "0.8",
-    "package": "com.example.examplemod.mixin",
+    "package": "com.andypeng1.gtgcore.mixin",
     "compatibilityLevel": "JAVA_17",
-    "plugin": "com.example.examplemod.mixin.GTDevCompatMixinPlugin",
+    "plugin": "com.andypeng1.gtgcore.mixin.GTDevCompatMixinPlugin",
     "priority": 2000,
     "client": [
         "client.GuiGraphicsCompatMixin",

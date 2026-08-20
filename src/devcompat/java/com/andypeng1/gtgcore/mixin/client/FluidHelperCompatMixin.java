@@ -1,4 +1,4 @@
-package com.example.examplemod.mixin.client;
+package com.andypeng1.gtgcore.mixin.client;
 
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import net.minecraftforge.fluids.FluidStack;
