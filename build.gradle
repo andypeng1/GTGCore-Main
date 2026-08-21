@@ -33,13 +33,16 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
-            // 标准 MDK 配置：
+            // 标准 MDK 配置 + dev 专用修复：
             // 1) remapRefMap：把本项目 mixin 的 refmap 从 SRG 反查为官方名（标准 MDK 行为）
-            // 2) 注意不要加 mixin.env.disableRefMap —— 渲染/优化类 mod（Oculus/Embeddium 等）
-            //    的 @Shadow 名字是 SRG 名，靠 refmap 反查成官方名才能在 dev 工作；
-            //    GTCEu 的 mixin 目标（refmap 值带 owner 前缀、无法反查）由 devcompat 兼容模组补充。
+            // 2) disableRefMap：依赖模组（GTCEu/Configuration 等）的 mixin 在 dev 直接应用 refmap
+            //    会把目标解析成 SRG 名（如 m_280405_），而 dev 类名是官方名，逐个都会崩。
+            //    dev 禁用 refmap 后全部用官方名直接解析（实测除 FluidHelperMixin 外全过，
+            //    FluidHelperMixin 由 devcompat 兼容模组补充目标方法解决）。
+            //    prod（整合包）不受影响：refmap 正常应用，GTCEu + JEI 完全正常。
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            property 'mixin.env.disableRefMap', 'true'
 
             mods {
                 "${mod_id}" {
@@ -127,8 +130,7 @@ dependencies {
     implementation fg.deobf("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
     // Architectury API
     runtimeOnly fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
-    // Registrate：仅编译期引用（MachineRegistrate 需要）。
-    // 运行期由 GTCEu jarjar 内嵌的 Registrate 提供 —— 若也放运行期会与它模块导出冲突。
+    // Registrate
     compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
     // kubejs
     implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
@@ -168,13 +170,7 @@ tasks.register('devCompatJar', Jar) {
 }
 
 dependencies {
-    runtimeOnly files(layout.buildDirectory.file('devcompat/gtgcore-devcompat.jar'))
-}
-// 保证 dev 运行前生成 devcompat jar（files() 路径引用不会自动触发任务）
-tasks.configureEach {
-    if (name == 'runClient' || name == 'runServer' || name == 'runData') {
-        dependsOn 'devCompatJar'
-    }
+    runtimeOnly files(tasks.named('devCompatJar'))
 }
 
 tasks.named('processResources', ProcessResources).configure {
