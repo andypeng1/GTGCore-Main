@@ -22,6 +22,7 @@ public class MachineRegistrate {
 
     // 此方法在 Mod 生命周期事件中调用，此时 GTCEu 已完全初始化
     public static void init() {
+        System.out.println("Initialiing Machines");
         LARGE_GAS_COLLECTOR = REGISTRATE
                 .multiblock("large_gas_collector", LargeGasCollector::new)
                 .langValue("Large Gas Collector")

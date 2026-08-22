@@ -120,7 +120,7 @@ dependencies {
     compileOnly("org.jetbrains:annotations:26.0.1")
     // GTM
     implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gtceu_version}") {
-        transitive = true
+        transitive = false
     }
     // LDlib
     implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:${ldlib_version}") {
