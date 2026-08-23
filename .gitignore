@@ -29,3 +29,9 @@ src/generated/
 *.log
 .DS_Store
 Thumbs.db
+# ZCode 会话数据（不提交）
+.zcode/
+
+# 生成大文件（不入库，GenerateCompatJs 可重新生成；fullpack 本地副本保留）
+src/devcompat/resources/coremods/auto_srg_compat.js
+devtools/audit_auto_tmp.js

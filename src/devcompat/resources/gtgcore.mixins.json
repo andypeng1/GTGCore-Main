@@ -9,7 +9,7 @@
         "client.GuiGraphicsCompatMixin",
         "client.FluidHelperCompatMixin",
         "client.MinecraftCompatMixin",
-        "client.ResourceLocationCompatMixin",
+        "client.PlayerStateDumpMixin",
     ],
     "injectors": {
         "defaultRequire": 1

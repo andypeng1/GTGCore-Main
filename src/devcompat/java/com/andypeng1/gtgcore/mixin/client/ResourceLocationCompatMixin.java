@@ -34,19 +34,19 @@ public abstract class ResourceLocationCompatMixin {
         throw new AssertionError();
     }
 
-    private static boolean m_135828_(char c) {
+    protected static boolean m_135828_(char c) {
         return validPathChar(c);
     }
 
-    private static boolean m_135835_(char c) {
+    protected static boolean m_135835_(char c) {
         return validNamespaceChar(c);
     }
 
-    private static boolean m_135841_(String path) {
+    protected static boolean m_135841_(String path) {
         return isValidPath(path);
     }
 
-    private static boolean m_135843_(String namespace) {
+    protected static boolean m_135843_(String namespace) {
         return isValidNamespace(namespace);
     }
 }
