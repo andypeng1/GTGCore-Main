@@ -71,6 +71,8 @@ minecraft {
 
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             args '--existing-mod', 'gtceu'
+
+            args '--client'
         }
     }
 }

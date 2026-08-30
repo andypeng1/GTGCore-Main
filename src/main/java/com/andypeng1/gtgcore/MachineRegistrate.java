@@ -30,7 +30,7 @@ public class MachineRegistrate {
                 .recipeType(GTRecipeTypes.GAS_COLLECTOR_RECIPES)
                 .recipeModifiers(GTRecipeModifiers.OC_PERFECT)
                 .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
-                .rotationState(RotationState.NON_Y_AXIS)
+                .rotationState(RotationState.Y_AXIS)
                 .pattern(definition -> FactoryBlockPattern.start()
                         .aisle("XXXXX", "XXXXX", "XXXXX", "XXXXX", "XXXXX")
                         .aisle("XVVVX", "VGGGV", "VGGGV", "VGGGV", "XVVVX")
