@@ -1,6 +1,7 @@
 package com.andypeng1.gtgcore;
 
 import com.andypeng1.gtgcore.machines.LargeGasCollector;
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -29,7 +30,7 @@ public class MachineRegistrate {
                 .recipeType(GTRecipeTypes.GAS_COLLECTOR_RECIPES)
                 .recipeModifiers(GTRecipeModifiers.OC_PERFECT)
                 .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
-                .rotationState(RotationState.ALL)
+                .rotationState(RotationState.NON_Y_AXIS)
                 .pattern(definition -> FactoryBlockPattern.start()
                         .aisle("XXXXX", "XXXXX", "XXXXX", "XXXXX", "XXXXX")
                         .aisle("XVVVX", "VGGGV", "VGGGV", "VGGGV", "XVVVX")
@@ -54,8 +55,8 @@ public class MachineRegistrate {
                         .where("S", blocks(GTBlocks.HERMETIC_CASING_IV.get()))
                         .build())
                 .workableCasingModel(
-                        GtgCore.id("block/machine/large_gas_collector"),
-                        GtgCore.id("block/machine/large_gas_collector_active")
+                        GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                        GtgCore.id("block/machine/large_gas_collector")
                 )
                 .register();
     }
