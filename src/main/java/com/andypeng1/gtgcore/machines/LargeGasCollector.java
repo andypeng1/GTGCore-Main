@@ -1,16 +1,19 @@
-package com.andypeng1.gtgcore.machines; // 替换成你自己的包名
+package com.andypeng1.gtgcore.machines;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 public class LargeGasCollector extends WorkableElectricMultiblockMachine {
 
-    // ① 基础构造函数：用于创建机器实例
-    public LargeGasCollector(IMachineBlockEntity info) {
-        super(info);
+    public LargeGasCollector(IMachineBlockEntity holder, Object... args) {
+        super(holder, args);
+    }
+
+    @Override
+    public GTRecipeType getRecipeType() {
+        return GTRecipeTypes.GAS_COLLECTOR_RECIPES;
     }
 
 }
