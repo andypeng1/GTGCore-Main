@@ -1,0 +1,18 @@
+{
+    "item.gtceu.lv_universal_circuit": "LV通用电路",
+    "item.gtceu.mv_universal_circuit": "MV通用电路",
+    "item.gtceu.hv_universal_circuit": "HV通用电路",
+    "item.gtceu.ev_universal_circuit": "EV通用电路",
+    "item.gtceu.iv_universal_circuit": "IV通用电路",
+    "item.gtceu.luv_universal_circuit": "LuV通用电路",
+    "item.gtceu.zpm_universal_circuit": "ZPM通用电路",
+    "item.gtceu.uv_universal_circuit": "UV通用电路",
+    "item.gtceu.uhv_universal_circuit": "UHV通用电路",
+    "item.gtceu.uev_universal_circuit": "UEV通用电路",
+    "item.gtceu.uiv_universal_circuit": "UIV通用电路",
+    "item.gtceu.ulv_universal_circuit": "ULV通用电路",
+    "item.gtceu.uxv_universal_circuit": "UXV通用电路",
+    "item.gtceu.opv_universal_circuit": "OPV通用电路",
+    "item.gtceu.max_universal_circuit": "MAX通用电路"
+    
+}
