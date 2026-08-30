@@ -36,6 +36,7 @@ public class MachineRegistrate {
                 .recipeType(GTRecipeTypes.GAS_COLLECTOR_RECIPES)
                 .recipeModifiers(GTRecipeModifiers.OC_PERFECT, GTRecipeModifiers.PARALLEL_HATCH)
                 .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+
                 .rotationState(RotationState.NON_Y_AXIS)
                 .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.LEFT, RelativeDirection.FRONT, RelativeDirection.UP)
                         .aisle("XXXXX", "XXXXX", "XXXXX", "XXXXX", "XXXXX")
